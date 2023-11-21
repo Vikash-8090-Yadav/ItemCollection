@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import Navbar from "../Component/Course/Nav";
+import { encodeFunctionData } from "viem";
 // import {
 //   marketplaceAddress
 // } from '../config'
@@ -12,11 +13,13 @@ import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketp
 export default function Home() {
   const {signer,provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
   const [nfts, setNfts] = useState([])
+  const [provider1,setProvider1] = useState('')
   const [loadingState, setLoadingState] = useState('not-loaded')
 
   useEffect(() => {
     // This code will run when the component mounts
     // connect();
+    setProvider1(provider)
     loadNFTs();
 
     // If you need to perform cleanup when the component unmounts, return a function from useEffect
@@ -37,19 +40,29 @@ export default function Home() {
     await provider.send('eth_requestAccounts', []);
     const Signer = provider.getSigner();
 
-    console.log(Signer);
+    console.log(smartAccountAddress);
     
     const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, Signer)
+
     // const iface = new ethers.utils.Interface(NFTMarketplace.abi);
     // const encodedData = iface.encodeFunctionData("fetchMarketItems", []);
+
+    // console.log("en data is ",encodedData)
     const data = await contract.fetchMarketItems()
 
-    // const { hash } = await provider.sendUserOperation({
+
+    
+
+
+    // const hash  = await provider1.sendUserOperation({
     //   target: "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174", // Replace with the desired target address
     //   data: encodedData, // Replace with the desired call data
     //   value: 0n,
     // });
     // console.log(hash);
+
+    console.log(data)
+    // const data = hash.result;
 
     /*
     *  map over items returned from smart contract and format 
@@ -75,32 +88,47 @@ export default function Home() {
   }
   async function buyNft(nft) {
     /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    // const provider = new ethers.providers.Web3Provider(window.ethereum);
-    // await provider.send('eth_requestAccounts', []);
-    // const signer = provider.getSigner();
+    const provider1 = new ethers.providers.Web3Provider(window.ethereum);
+    await provider1.send('eth_requestAccounts', []);
+    const signer1 = provider1.getSigner();
 
-    // const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, provider)
+    const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer1)
 
     /* user will be prompted to pay the asking proces to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
-    // const transaction = await contract.createMarketSale(nft.tokenId, {
+
+    try{
+      const price = ethers.utils.parseUnits((nft.price).toString(), 'ether');
+    // const estimatedGas = await contract.estimateGas.createMarketSale(nft.tokenId, {
     //   value: price
     // })
     // await transaction.wait()
-    const abi = NFTMarketplace.abi;
-    const iface = new ethers.utils.Interface(abi);
+
+    const abi1 = NFTMarketplace.abi;
+    const iface = new ethers.utils.Interface(abi1);
     alert(nft.tokenId);
-    const encodedData = iface.encodeFunctionData("createMarketSale", [nft.tokenId]);
+    const id = nft.tokenId;
+    const encodedData = iface.encodeFunctionData("createMarketSale", [id]);
+
+// const encodedData = encodeFunctionData({
+
+//   abi: abi1,
+//   functionName: "createMarketSale",
+//   args: [id],
+// });
+// // provider.withAlchemyGasManager({
+//   policyId: "1d009a93-fb23-4fd1-b6d7-bf9ad9e56d0f", // replace with your policy id, get yours at https://dashboard.alchemy.com/
+// }); 
 
     console.log(encodedData);
     alert(price)
 
+    
 const result = await provider.sendUserOperation({
-        target: "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174", // Replace with the desired target address
+        target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
         value: price,
       });
-      alert("Yaha tk aa gya h")
+  
       const txHash = await provider.waitForUserOperationTransaction(
         result.hash
       );
@@ -119,11 +147,14 @@ const result = await provider.sendUserOperation({
     
       console.log(txReceipt);
     loadNFTs()
+  }catch(error){
+    console.log(error)
+  }
   }
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-white text-3xl">No Courses in marketplace</h1>)
   return (
     <div>
-      <Navbar/>
+     
 
     <div className="flex mrkt  justify-center">
   
