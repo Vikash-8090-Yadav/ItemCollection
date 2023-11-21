@@ -1,7 +1,10 @@
-import {
-    marketplaceAddress
-  } from '../config'
+// import {
+//     marketplaceAddress
+//   } from '../config'
   
+// import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+
+const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
   
 

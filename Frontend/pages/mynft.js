@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Web3Modal from 'web3modal';
 import { useRouter } from 'next/router';
-
+import Navbar from "../Component/Course/Nav";
 import { marketplaceAddress } from '../config';
 
 
@@ -22,16 +22,17 @@ export default function MyAssets() {
     const web3Modal = new Web3Modal({
       network: 'mainnet',
       cacheProvider: true,
-    });
-    const connection = await web3Modal.connect();
-    const provider = new ethers.providers.Web3Provider(connection);
-    const signer = provider.getSigner();
+    })
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
 
     const marketplaceContract = new ethers.Contract(
       marketplaceAddress,
       NFTMarketplace.abi,
       signer
     );
+    console.log("sign",signer);
     const data = await marketplaceContract.fetchMyNFTs();
 
     const items = await Promise.all(
@@ -63,6 +64,9 @@ export default function MyAssets() {
     return <h1 className="py-10 px-20  text-white text-3xl">No Courses owned</h1>;
 
   return (
+    <div>
+    <Navbar/>
+
     <div className="flex justify-center">
 
   
@@ -84,6 +88,7 @@ export default function MyAssets() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }

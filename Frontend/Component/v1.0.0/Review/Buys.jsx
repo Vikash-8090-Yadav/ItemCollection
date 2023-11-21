@@ -1,32 +1,32 @@
+
+const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
+import React, { useState, useMemo, useEffect, useContext } from "react";
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useBiconomy } from "../../Hooks/Connection";
+import NFTMarketplace from '../../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+
 import { ethers } from "ethers";
-import Image from "next/image";
-// import Coffee from "../public/Images/Coffee.png"
-import { Button } from "antd";
-
-
-
-
-import nftcntrct from "../../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json";
-import { Modal, Input, Tooltip } from 'antd'
-const cntaddress = "0xe589368bd5B640A76b533240BE31962c75ded498";
-
-let walletprovider;
-if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
-    const {ethereum} =window;
-    walletprovider = new  ethers.providers.Web3Provider(
-      ethereum
-    )
-} else {
-  
-}
-
-
 
 
 
 const Buy = ({ state }) => {
+  const {provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
+  
+  useEffect(() => {
+    // This code will run when the component mounts
+    connect();
+
+    // If you need to perform cleanup when the component unmounts, return a function from useEffect
+    return () => {
+      // Cleanup code (if needed)
+    };
+  }, []); 
 
   const buyChai = async (event) => {
+
+    console.log(provider);
     
     event.preventDefault();
     const { contract } = state;
@@ -38,8 +38,56 @@ const Buy = ({ state }) => {
     alert("moving to meesage");
     alert(message);
     const amount = { value: ethers.utils.parseEther("0.001") };
-    const transaction = await contract.buyChai(name, message,amount);
-    await transaction.wait();
+
+    // const transaction = await contract.buyChai(name, message,amount);
+    const abi = NFTMarketplace.abi;
+    const iface = new ethers.utils.Interface(abi);
+    const encodedData = iface.encodeFunctionData("buyChai", [name, message]);
+
+    // await transaction.wait();
+
+
+    try{
+    
+      // const approvalTrx = await contract.sendUserOperation.buyChai(name, message,amount);
+      const { hash } = await provider.sendUserOperation({
+        target: "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174", // Replace with the desired target address
+        data: encodedData, // Replace with the desired call data
+        value: ethers.utils.parseEther('0.001'),
+      });
+      console.log(hash);
+  
+  
+      // const tx1 = {
+      //   target: marketplaceAddress,
+      //   data: approvalTrx.data,
+      //   value: ethers.utils.parseEther('0.001'),
+  
+      // }
+
+  // console.log(tx1);
+  
+      // const txResponse = await smartAccount.sendTransaction({ transaction: tx1 })
+      // const userOp = await smartAccount.buildUserOp([tx1]);
+      // console.log({ userOp })
+     
+        // const polygonScanlink = `https://mumbai.polygonscan.com/tx/${receipt.transactionHash}`
+        // toast.success(<a target="_blank" href={polygonScanlink}>Success Click to view transaction</a>, {
+        //   position: "top-right",
+        //   autoClose: 18000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "dark",
+        //   });
+    }catch(error){
+      console.log(error)
+    }
+
+
+
     alert(name);
     alert("moving to meesage");
     alert(message);

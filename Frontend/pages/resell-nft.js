@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
-
+import Navbar from "../Component/Course/Nav";
 import {
   marketplaceAddress
 } from '../config'
@@ -48,6 +48,9 @@ export default function ResellNFT() {
   }
 
   return (
+    <div>
+    <Navbar/>
+
     <div className="flex justify-center">
       <div className="w-1/2 flex flex-col pb-12">
         <input
@@ -64,6 +67,7 @@ export default function ResellNFT() {
           List NFT
         </button>
       </div>
+    </div>
     </div>
   )
 }

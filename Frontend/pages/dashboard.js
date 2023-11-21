@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
-
+import Navbar from "../Component/Course/Nav";
 import {
   marketplaceAddress
 } from '../config'
@@ -47,6 +47,7 @@ export default function CreatorDashboard() {
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10  text-whitepx-20 text-3xl">No Courses listed</h1>)
   return (
     <div>
+      <Navbar/>
       <div className="p-4">
         <h2 className="text-2xl py-2">Items Listed</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
