@@ -1,5 +1,5 @@
 
-const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
+const marketplaceAddress = "0x1aC5B50d6795b2fc5bA6A9Ad050eBF5590875736";
 import React, { useState, useMemo, useEffect, useContext } from "react";
 
 import { toast, ToastContainer } from 'react-toastify';
@@ -50,12 +50,30 @@ const Buy = ({ state }) => {
     try{
     
       // const approvalTrx = await contract.sendUserOperation.buyChai(name, message,amount);
-      const { hash } = await provider.sendUserOperation({
-        target: "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174", // Replace with the desired target address
+      const result = await provider.sendUserOperation({
+        target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
         value: ethers.utils.parseEther('0.001'),
       });
-      console.log(hash);
+
+      const txHash = await provider.waitForUserOperationTransaction(
+        result.hash
+      );
+    
+      console.log("\nTransaction hash: ", txHash);
+    
+      const userOpReceipt = await provider.getUserOperationReceipt(
+        result.hash
+      );
+    
+      console.log("\nUser operation receipt: ", userOpReceipt);
+    
+      const txReceipt = await provider.rpcClient.waitForTransactionReceipt({
+        hash: txHash,
+      });
+    
+      console.log(txReceipt);
+      // console.log(hash);
   
   
       // const tx1 = {

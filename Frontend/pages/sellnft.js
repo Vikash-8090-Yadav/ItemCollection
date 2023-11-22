@@ -28,7 +28,7 @@ const client = IPFSHTTPClient({
 
 
 // import { marketplaceAddress } from '../config';
-const marketplaceAddress="0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174"
+const marketplaceAddress="0x1aC5B50d6795b2fc5bA6A9Ad050eBF5590875736"
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json';
 
 const CreateItem=() => {
@@ -152,7 +152,7 @@ try{
     const encodedData = iface.encodeFunctionData("createToken", [url, price]);
 
 const { hash } = await provider.sendUserOperation({
-        target: "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174", // Replace with the desired target address
+        target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
         value: ethers.utils.parseEther('0.025'),
       });

@@ -4,10 +4,10 @@ import axios from 'axios'
 import Web3Modal from 'web3modal'
 import Navbar from "../Component/Course/Nav";
 import { encodeFunctionData } from "viem";
-// import {
-//   marketplaceAddress
-// } from '../config'
-const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
+import {
+  marketplaceAddress
+} from '../config'
+// const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
 import { useBiconomy } from '../Component/Hooks/Connection';
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 export default function Home() {

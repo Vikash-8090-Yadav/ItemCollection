@@ -4,8 +4,8 @@ import axios from 'axios';
 import Web3Modal from 'web3modal';
 import { useRouter } from 'next/router';
 import Navbar from "../Component/Course/Nav";
-// import { marketplaceAddress } from '../config';
-const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
+import { marketplaceAddress } from '../config';
+// const marketplaceAddress = "0x1aC5B50d6795b2fc5bA6A9Ad050eBF5590875736";
 
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 
@@ -20,7 +20,7 @@ export default function MyAssets() {
 
   async function loadNFTs() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send('eth_requestAccounts', ["0xd6E79acae4Dd9788B647ec601E1D408bB2d27453"]);
+    await provider.send('eth_requestAccounts', [""]);
     const signer = provider.getSigner();
     const marketplaceContract = new ethers.Contract(
       marketplaceAddress,
@@ -28,7 +28,7 @@ export default function MyAssets() {
       signer
     );
     console.log("sign",signer);
-    const data = await marketplaceContract.fetchMyNFTs();
+    const data = await marketplaceContract.fetchMyNFTs("0xd6E79acae4Dd9788B647ec601E1D408bB2d27453");
     console.log(data)
 
     const items = await Promise.all(
