@@ -27,6 +27,8 @@ const Memos = ({ state }) => {
     memosMessage();
   }, [contract]);
 
+  console.log(memos)
+
   return (
     <>
       <p className="mncnt" style={{ textAlign: "center", marginTop: "20px" }}>

@@ -1,5 +1,5 @@
 
-const marketplaceAddress = "0x1aC5B50d6795b2fc5bA6A9Ad050eBF5590875736";
+const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
 import React, { useState, useMemo, useEffect, useContext } from "react";
 
 import { toast, ToastContainer } from 'react-toastify';

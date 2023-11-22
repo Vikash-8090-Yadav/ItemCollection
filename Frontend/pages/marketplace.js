@@ -154,7 +154,7 @@ const result = await provider.sendUserOperation({
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-white text-3xl">No Courses in marketplace</h1>)
   return (
     <div>
-     
+     <Navbar/>
 
     <div className="flex mrkt  justify-center">
   
