@@ -4,7 +4,7 @@
   
 // import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 
-const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
+const marketplaceAddress = "0x858bdf757970E13036605248C27beAeA733B17AB";
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
   
 import Navbar from "../Component/Course/Nav";

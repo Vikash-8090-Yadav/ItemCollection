@@ -41,8 +41,8 @@
       ]
     },
     "/home/vikash/Desktop/MB/ItemCollection/SmartContract/contracts/NFTMarketplace.sol": {
-      "lastModificationDate": 1700609623439,
-      "contentHash": "12fc7daf0112ba782305b0169b2e7e64",
+      "lastModificationDate": 1700698327183,
+      "contentHash": "9271db1606f908a21dfdb72c3f2da45f",
       "sourceName": "contracts/NFTMarketplace.sol",
       "solcConfig": {
         "version": "0.8.10",

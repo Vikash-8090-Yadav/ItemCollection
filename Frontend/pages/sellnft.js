@@ -27,8 +27,7 @@ const client = IPFSHTTPClient({
 });
 
 
-// import { marketplaceAddress } from '../config';
-const marketplaceAddress="0x1aC5B50d6795b2fc5bA6A9Ad050eBF5590875736"
+import { marketplaceAddress } from '../config';
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json';
 
 const CreateItem=() => {
@@ -151,24 +150,41 @@ try{
     const iface = new ethers.utils.Interface(abi);
     const encodedData = iface.encodeFunctionData("createToken", [url, price]);
 
-const { hash } = await provider.sendUserOperation({
+const result = await provider.sendUserOperation({
         target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
         value: ethers.utils.parseEther('0.025'),
       });
-      console.log(hash);
+
+      const txHash = await provider.waitForUserOperationTransaction(
+        result.hash
+      );
+    
+      console.log("\nTransaction hash: ", txHash);
+    
+      const userOpReceipt = await provider.getUserOperationReceipt(
+        result.hash
+      );
+    
+      console.log("\nUser operation receipt: ", userOpReceipt);
+    
+      const txReceipt = await provider.rpcClient.waitForTransactionReceipt({
+        hash: txHash,
+      });
+    
+      console.log(txReceipt);
       // console.log("txHash", receipt.transactionHash);
-      // const polygonScanlink = `https://mumbai.polygonscan.com/tx/${receipt.transactionHash}`
-      // toast.success(<a target="_blank" href={polygonScanlink}>Success Click to view transaction</a>, {
-      //   position: "top-right",
-      //   autoClose: 18000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "dark",
-      //   });
+      const polygonScanlink = `https://mumbai.polygonscan.com/tx/${txHash}`
+      toast.success(<a target="_blank" href={polygonScanlink}>Success Click to view transaction</a>, {
+        position: "top-right",
+        autoClose: 18000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
   }catch(error){
     console.log(error)
   }

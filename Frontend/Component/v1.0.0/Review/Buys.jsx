@@ -1,5 +1,5 @@
 
-const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
+const marketplaceAddress = "0x858bdf757970E13036605248C27beAeA733B17AB";
 import React, { useState, useMemo, useEffect, useContext } from "react";
 
 import { toast, ToastContainer } from 'react-toastify';
@@ -48,8 +48,11 @@ const Buy = ({ state }) => {
 
 
     try{
-    
-      // const approvalTrx = await contract.sendUserOperation.buyChai(name, message,amount);
+      // const GAS_MANAGER_POLICY_ID = "1d009a93-fb23-4fd1-b6d7-bf9ad9e56d0f";
+
+      // provider.withAlchemyGasManager({
+      //   policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
+      // });
       const result = await provider.sendUserOperation({
         target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
@@ -73,43 +76,21 @@ const Buy = ({ state }) => {
       });
     
       console.log(txReceipt);
-      // console.log(hash);
-  
-  
-      // const tx1 = {
-      //   target: marketplaceAddress,
-      //   data: approvalTrx.data,
-      //   value: ethers.utils.parseEther('0.001'),
-  
-      // }
-
-  // console.log(tx1);
-  
-      // const txResponse = await smartAccount.sendTransaction({ transaction: tx1 })
-      // const userOp = await smartAccount.buildUserOp([tx1]);
-      // console.log({ userOp })
      
-        // const polygonScanlink = `https://mumbai.polygonscan.com/tx/${receipt.transactionHash}`
-        // toast.success(<a target="_blank" href={polygonScanlink}>Success Click to view transaction</a>, {
-        //   position: "top-right",
-        //   autoClose: 18000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "dark",
-        //   });
+        const polygonScanlink = `https://mumbai.polygonscan.com/tx/${txHash}`
+        toast.success(<a target="_blank" href={polygonScanlink}>Success Click to view transaction</a>, {
+          position: "top-right",
+          autoClose: 18000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          });
     }catch(error){
       console.log(error)
     }
-
-
-
-    alert(name);
-    alert("moving to meesage");
-    alert(message);
-    console.log("Transaction is done");
     
   };
   

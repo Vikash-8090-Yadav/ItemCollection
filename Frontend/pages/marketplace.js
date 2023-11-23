@@ -7,9 +7,10 @@ import { encodeFunctionData } from "viem";
 import {
   marketplaceAddress
 } from '../config'
-// const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
 import { useBiconomy } from '../Component/Hooks/Connection';
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+
+
 export default function Home() {
   const {signer,provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
   const [nfts, setNfts] = useState([])
@@ -43,31 +44,9 @@ export default function Home() {
     console.log(smartAccountAddress);
     
     const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, Signer)
-
-    // const iface = new ethers.utils.Interface(NFTMarketplace.abi);
-    // const encodedData = iface.encodeFunctionData("fetchMarketItems", []);
-
-    // console.log("en data is ",encodedData)
     const data = await contract.fetchMarketItems()
-
-
-    
-
-
-    // const hash  = await provider1.sendUserOperation({
-    //   target: "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174", // Replace with the desired target address
-    //   data: encodedData, // Replace with the desired call data
-    //   value: 0n,
-    // });
-    // console.log(hash);
-
     console.log(data)
-    // const data = hash.result;
 
-    /*
-    *  map over items returned from smart contract and format 
-    *  them as well as fetch their token metadata
-    */
     const items = await Promise.all(data.map(async i => {
       const tokenUri = await contract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
@@ -87,14 +66,15 @@ export default function Home() {
     setLoadingState('loaded') 
   }
   async function buyNft(nft) {
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+
+    console.log(nft)
     const provider1 = new ethers.providers.Web3Provider(window.ethereum);
     await provider1.send('eth_requestAccounts', []);
     const signer1 = provider1.getSigner();
 
     const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer1)
 
-    /* user will be prompted to pay the asking proces to complete the transaction */
+  
 
     try{
       const price = ethers.utils.parseUnits((nft.price).toString(), 'ether');
@@ -102,6 +82,7 @@ export default function Home() {
     //   value: price
     // })
     // await transaction.wait()
+    // console.log("estimatedGas",estimatedGas);
 
     const abi1 = NFTMarketplace.abi;
     const iface = new ethers.utils.Interface(abi1);
@@ -109,24 +90,19 @@ export default function Home() {
     const id = nft.tokenId;
     const encodedData = iface.encodeFunctionData("createMarketSale", [id]);
 
-// const encodedData = encodeFunctionData({
+// const GAS_MANAGER_POLICY_ID = "1d009a93-fb23-4fd1-b6d7-bf9ad9e56d0f";
 
-//   abi: abi1,
-//   functionName: "createMarketSale",
-//   args: [id],
-// });
-// // provider.withAlchemyGasManager({
-//   policyId: "1d009a93-fb23-4fd1-b6d7-bf9ad9e56d0f", // replace with your policy id, get yours at https://dashboard.alchemy.com/
+// provider.withAlchemyGasManager({
+//   policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
 // }); 
 
     console.log(encodedData);
-    alert(price)
-
-    
+    console.log(price)
 const result = await provider.sendUserOperation({
         target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
-        value: price,
+        value:  BigInt(Math.floor(price)),
+        callGasLimit:"0x2faf080",
       });
   
       const txHash = await provider.waitForUserOperationTransaction(
@@ -146,6 +122,17 @@ const result = await provider.sendUserOperation({
       });
     
       console.log(txReceipt);
+      const polygonScanlink = `https://mumbai.polygonscan.com/tx/${txHash}`
+      toast.success(<a target="_blank" href={polygonScanlink}>Success Click to view transaction</a>, {
+        position: "top-right",
+        autoClose: 18000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
     loadNFTs()
   }catch(error){
     console.log(error)
@@ -154,7 +141,7 @@ const result = await provider.sendUserOperation({
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-white text-3xl">No Courses in marketplace</h1>)
   return (
     <div>
-     <Navbar/>
+ <Navbar/>
 
     <div className="flex mrkt  justify-center">
   

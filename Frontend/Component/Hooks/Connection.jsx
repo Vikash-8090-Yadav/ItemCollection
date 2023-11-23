@@ -55,7 +55,7 @@ const walletClient = createWalletClient({
       setLoading(true)
 
       const provider = new AlchemyProvider({
-        apiKey: "MeKFrDq5O-mlM8I0CzXpKg0pRvdNRjxF", // Replace with your Alchemy API key, you can get one at https://dashboard.alchemy.com/
+        apiKey: "grp3kc-gOX62hc6iSfXoazOzLuLWY6VW", // Replace with your Alchemy API key, you can get one at https://dashboard.alchemy.com/
         chain,
         // Entrypoint address, you can use a different entrypoint if needed, check out https://docs.alchemy.com/reference/eth-supportedentrypoints for all the supported entrypoints
         entryPointAddress: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789",

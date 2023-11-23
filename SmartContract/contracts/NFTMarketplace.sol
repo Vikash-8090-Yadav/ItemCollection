@@ -113,7 +113,7 @@ contract NFTMarketplace is ERC721URIStorage {
         _transfer(address(this), msg.sender, tokenId);
 
         payable(owner).transfer(listingPrice);
-        payable(seller).transfer(msg.value);
+        // payable(seller).transfer(msg.value);
 
         emit MarketSale(tokenId, msg.sender, seller, price);
     }
@@ -213,7 +213,7 @@ function fetchMyNFTs(address creator) public view returns (MarketItem[] memory) 
 
     function buyChai(string memory name, string memory message) public payable {
         require(msg.value > 0, "Please pay something greater than 0");
-        Rowner.transfer(msg.value); // Will transfer donator's money to the smart contract owner
+        // Rowner.transfer(msg.value); // Will transfer donator's money to the smart contract owner
         memos.push(Memo(name, message, block.timestamp, msg.sender)); // Now we will add that donator to our donators list
 
         // Emit the Donation event
