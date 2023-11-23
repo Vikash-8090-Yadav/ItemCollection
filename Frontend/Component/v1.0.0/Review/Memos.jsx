@@ -4,12 +4,12 @@
 import { useState, useEffect } from "react";
 import { createClient } from "urql";
 import { toast, ToastContainer } from 'react-toastify';
-import { useBiconomy } from "../../Hooks/Connection";
+import { useAlchemy } from "../../Hooks/Connection";
 
 const Memos = ({ state }) => {
 
 
-  const {provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
+  const {provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
   const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
 

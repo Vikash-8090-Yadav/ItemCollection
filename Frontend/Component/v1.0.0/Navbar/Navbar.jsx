@@ -5,10 +5,12 @@ import React, {useState} from 'react'
 import {Link} from 'react-scroll';
 import {FaBars, FaTimes} from 'react-icons/fa'
 import { useWeb3Modal, Web3Button, Web3NetworkSwitch } from '@web3modal/react'
-import { useBiconomy } from "../../Hooks/Connection";
+
+import { useAlchemy } from '../../Hooks/Connection';
+
 const Navbar = () => {
     
-    const {provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
+    const {provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
     const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -63,7 +65,7 @@ const Navbar = () => {
     
             <div className = {navBar ? 'navbar active' : 'navbar'}>
                 <h1 className = "text-3xl  ml-2 text-white font-semibold max-sm:text-xl max-sm:ml-0 max-sm:mr-3"><h2>
-            <span className="text-blue-800">EDU.d</span><span className="text-white">App</span>
+            <span className="text-blue-800">Item</span><span className="text-white">Collection</span>
           </h2></h1>
 
                 <ul className = "hidden md:flex text-white">

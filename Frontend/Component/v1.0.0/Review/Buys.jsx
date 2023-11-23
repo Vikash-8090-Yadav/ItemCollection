@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect, useContext } from "react";
 
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useBiconomy } from "../../Hooks/Connection";
+import { useAlchemy } from "../../Hooks/Connection";
 import NFTMarketplace from '../../../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 
 import { ethers } from "ethers";
@@ -12,7 +12,31 @@ import { ethers } from "ethers";
 
 
 const Buy = ({ state }) => {
-  const {provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
+
+  const AlchemyTokenAbi =[
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_param",
+          "type": "uint256"
+        }
+      ],
+      "name": "callFunction",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ];
+  const iface = new ethers.utils.Interface(AlchemyTokenAbi);
+  const uoCallData  = iface.encodeFunctionData("callFunction", [1]);
+  const {provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
   
   useEffect(() => {
     // This code will run when the component mounts
@@ -25,18 +49,12 @@ const Buy = ({ state }) => {
   }, []); 
 
   const buyChai = async (event) => {
-
-    console.log(provider);
     
     event.preventDefault();
     const { contract } = state;
     const name = document.querySelector("#name").value;
     const message = document.querySelector("#message").value;
 
-    console.log(name, message, contract);
-    alert(name);
-    alert("moving to meesage");
-    alert(message);
     const amount = { value: ethers.utils.parseEther("0.001") };
 
     // const transaction = await contract.buyChai(name, message,amount);
@@ -48,16 +66,20 @@ const Buy = ({ state }) => {
 
 
     try{
-      // const GAS_MANAGER_POLICY_ID = "1d009a93-fb23-4fd1-b6d7-bf9ad9e56d0f";
+      const GAS_MANAGER_POLICY_ID = "f9d6cd57-434c-4300-9ae2-bf5ea0624b96";
 
-      // provider.withAlchemyGasManager({
-      //   policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
-      // });
-      const result = await provider.sendUserOperation({
-        target: marketplaceAddress, // Replace with the desired target address
-        data: encodedData, // Replace with the desired call data
-        value: ethers.utils.parseEther('0.001'),
+      provider.withAlchemyGasManager({
+        policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
       });
+
+      
+      const result = await provider.sendUserOperation(
+        { target: marketplaceAddress, // Replace with the desired target address
+        data: encodedData, // Replace with the desired call data
+        value: ethers.utils.parseEther('0.001')},
+        
+      );
+
 
       const txHash = await provider.waitForUserOperationTransaction(
         result.hash
@@ -100,7 +122,7 @@ const Buy = ({ state }) => {
       <div name = "contact" className = "w-full  ml-28 p-6">
         <div className = "flex flex-col p-4 justify-center max-w-screen-lg mx-auto ">
             <div className = " mn pb-8">
-                <p className = "text-4xl font-bold text-center  flex items-center justify-center">Review  a Course
+                <p className = "text-4xl font-bold text-center  flex items-center justify-center">Review   A ITEM
                   {/* <Image src = {Coffee} height="50" width="50" className = "mx-3 transform flip-horizontal" /> */}
                 </p>
                 <p className = "py-6 text-center text-xl font-semibold">Submit the Review by filling  the form below .</p>
@@ -111,7 +133,7 @@ const Buy = ({ state }) => {
                     <input type = "text" id = "name" placeholder = "Enter Course name" className = "p-2 bg-transparent border-2 border-white rounded-md focus:outline-none text-white" />
                     <textarea placeholder = "Enter your Review Message" id = "message" rows = "8" className = "p-2 bg-transparent border-2 border-white rounded-md focus:outline-none text-white" />
                     <button  type="submit"
-                  disabled={!state.contract} className = " btn btn-primary px-6 py-6 bg-gradient-to-b from-cyan-500 to-blue-500 my-8 mx-auto flex items-center rounded-md hover:scale-110 duration-150 text-white  font-semibold" >Complete Review and Get Direct NFT </button>
+                  disabled={!state.contract} className = " btn btn-primary px-6 py-6 bg-gradient-to-b from-cyan-500 to-blue-500 my-8 mx-auto flex items-center rounded-md hover:scale-110 duration-150 text-white  font-semibold" >Complete Review and Donate us 0.01 Matic </button>
                 </form>
             </div>
         </div>

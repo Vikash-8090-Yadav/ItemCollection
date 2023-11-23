@@ -5,11 +5,14 @@ import Web3Modal from 'web3modal';
 import { useRouter } from 'next/router';
 import Navbar from "../Component/Course/Nav";
 import { marketplaceAddress } from '../config';
+import { useAlchemy } from '../Component/Hooks/Connection';
 // const marketplaceAddress = "0x1aC5B50d6795b2fc5bA6A9Ad050eBF5590875736";
 
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 
 export default function MyAssets() {
+
+  const {signer,provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
   const [nfts, setNfts] = useState([]);
   const [loadingState, setLoadingState] = useState('not-loaded');
   const router = useRouter();
@@ -58,10 +61,12 @@ export default function MyAssets() {
   }
 
   if (loadingState === 'loaded' && !nfts.length)
-    return <h1 className="py-10 px-20  text-white text-3xl">No Courses owned</h1>;
-
+ 
+    return <h1 className=" mmn py-20 px-20  text-white text-3xl">No Courses owned</h1>;
   return (
+    
     <div>
+      
     <Navbar/>
 
     <div className="flex justify-center">

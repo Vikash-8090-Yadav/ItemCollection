@@ -22,7 +22,6 @@ export default function Home(){
         <Hero/>
         <About/> 
         <Explore/>
-        <Problem/>
        < Card/>
         <HappyClient/> 
 

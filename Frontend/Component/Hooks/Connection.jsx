@@ -4,6 +4,8 @@ import {
   LightSmartContractAccount,
   getDefaultLightAccountFactoryAddress,
 } from "@alchemy/aa-accounts";
+import { ParticleNetwork } from "@particle-network/auth";
+import { ParticleProvider } from "@particle-network/provider";
 import { LocalAccountSigner } from "@alchemy/aa-core";
 import { polygonMumbai } from "viem/chains";
 import { WalletClientSigner,  SmartAccountSigner } from "@alchemy/aa-core";
@@ -12,13 +14,36 @@ import { ethers } from "ethers";
 const chain = polygonMumbai;
 const PRIVATE_KEY = "0x4b37e644ab78c477cf92ed880dd52d5b0d50bfe36056696d1e05ba480d5abaa3"; // Replace with the private key of your EOA that will be the owner of Light Account
 
+
+const particle = new ParticleNetwork({
+  projectId: "add7fc6d-c5e0-4018-a6e1-4d7c10c79f2d" ,
+  clientKey: "cergjuCrbXhDPdwbzQMaGqubnTZ4m8zDuwyXlrJF" ,
+  appId: "sT0XVkK7qOG68D2cTEZAOsNXuzDU2q39z2mp518a" ,
+  chainName: "polygon",
+  chainId: 80001,
+});
+
+const particleProvider = new ParticleProvider(particle.auth);
+
+// Assumes user has logged in with something like particle.auth.login(), Particle Connect, or through other misc. connection
+
+const particleWalletClient = createWalletClient({
+  transport: custom(particleProvider),
+});
+
+const particleSigner = new WalletClientSigner(
+  particleWalletClient,
+  "particle"
+);
+
+
 const eoaSigner =
   LocalAccountSigner.privateKeyToAccountSigner(PRIVATE_KEY); 
 
 import React, { useState, useMemo, useEffect, useContext } from "react";
 
 
-const BiconomyContext = React.createContext({
+const AlchmeyContext = React.createContext({
   smartAccount: undefined,
   smartAccountAddress: undefined,
   provider: undefined,
@@ -26,8 +51,8 @@ const BiconomyContext = React.createContext({
   connect: undefined
 })
 
-export const useBiconomy = () => {
-  return useContext(BiconomyContext)
+export const useAlchemy = () => {
+  return useContext(AlchmeyContext)
 }
 
 export const BiconomyProvider = ({ children }) => {
@@ -44,12 +69,7 @@ const walletClient = createWalletClient({
   transport: custom(externalProvider),
 });
 
-//  const signer =  LocalAccountSigner.privateKeyToAccountSigner("0x4b37e644ab78c477cf92ed880dd52d5b0d50bfe36056696d1e05ba480d5abaa3");
-
-// console.log(signer)
-
   const connect = async () => {
-    // @ts-ignore
    
     try {
       setLoading(true)
@@ -81,6 +101,7 @@ const walletClient = createWalletClient({
      
       const address =await provider.getAddress();
       setSmartAccountAddress(address)
+       localStorage.setItem('smartAccountAddress',smartAccountAddress);
       // console.log({ smartAccountAddress })
       setLoading(false)
     } catch (error) {
@@ -89,7 +110,7 @@ const walletClient = createWalletClient({
   }
 
   return (
-    <BiconomyContext.Provider
+    <AlchmeyContext.Provider
       value={{
         smartAccount: smartAccount,
         smartAccountAddress: smartAccountAddress,
@@ -99,6 +120,6 @@ const walletClient = createWalletClient({
       }}
     >
       {children}
-    </BiconomyContext.Provider>
+    </AlchmeyContext.Provider>
   )
 }

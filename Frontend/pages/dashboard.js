@@ -44,7 +44,7 @@ export default function CreatorDashboard() {
     setNfts(items)
     setLoadingState('loaded') 
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10  text-whitepx-20 text-3xl">No Courses listed</h1>)
+  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 mmn  text-whitepx-20 text-3xl">No Courses listed</h1>)
   return (
     <div>
       <Navbar/>

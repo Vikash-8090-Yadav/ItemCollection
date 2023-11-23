@@ -5,7 +5,7 @@ import axios from 'axios'
 import Web3Modal from 'web3modal'
 import Navbar from "../Component/Course/Nav";
 
-import { useBiconomy } from '../Component/Hooks/Connection';
+import { useAlchemy } from '../Component/Hooks/Connection';
 import {
   marketplaceAddress
 } from '../config'
@@ -14,7 +14,7 @@ import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketp
 // const marketplaceAddress = "0xF2B8a621d0F517e9F756fDC2E69d2d70eB968174";
 
 export default function ResellNFT() {
-  const {signer,provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
+  const {signer,provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
   const [formInput, updateFormInput] = useState({ price: '', image: '' })
   const router = useRouter()
   const { id, tokenURI } = router.query
@@ -50,6 +50,11 @@ export default function ResellNFT() {
     // alert(nft.tokenId);
     // const id = nft.tokenId;
     const encodedData = iface.encodeFunctionData("resellToken", [id,priceFormatted]);
+    const GAS_MANAGER_POLICY_ID = "f9d6cd57-434c-4300-9ae2-bf5ea0624b96";
+
+    provider.withAlchemyGasManager({
+      policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
+    });
 
     const result = await provider.sendUserOperation({
       target: marketplaceAddress, // Replace with the desired target address

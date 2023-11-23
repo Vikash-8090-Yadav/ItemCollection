@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps = {} }) {
         {loading ? (
           <div className = "w-screen h-screen flex flex-col justify-center items-center">
             <ColorRing height = {90}/>
-            <div className = "font-semibold text-4xl tracking-widest px-5 text-center">WELCOME TO Edu.Dev DAPP</div>
+            <div className = "font-semibold text-4xl text-white tracking-widest px-5 text-center">WELCOME TO Store DAPP</div>
           </div>
 
           ) : (

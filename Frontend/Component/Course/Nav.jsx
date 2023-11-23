@@ -1,11 +1,11 @@
-import { useBiconomy } from '../Hooks/Connection';
+import { useAlchemy } from '../Hooks/Connection';
 import { ethers  } from 'ethers'
 import { useState, useEffect, useRef } from 'react'
 import Link from "next/link";
 
 export default function Navbar() {
 
-  const {smartAccount, smartAccountAddress,connect} = useBiconomy();
+  const {smartAccount, smartAccountAddress,connect} = useAlchemy();
 
 
   const [address, setAddress] = useState("")
@@ -42,11 +42,10 @@ export default function Navbar() {
       <div className="hidden justify-between items-center sticky bg-green-500 md:flex p-12 text-9010FF  text-2xl nav-item font-bold font-serif justify-center items-center text-black h-8">
 
         <Link legacyBehavior href={"/marketplace"}>HOME</Link>
-        <Link legacyBehavior href={"/sellnft"}>SELL COURSE</Link>
-        {/* <NavLink to ="/sellnft">SELL COURSE</NavLink> */}
-        <Link legacyBehavior href={"/mynft"}>MY COURSE</Link>
+        <Link legacyBehavior href={"/sellnft"}>SELL ITEM</Link>
+        <Link legacyBehavior href={"/mynft"}>MY ITEM</Link>
         <Link legacyBehavior href={"/dashboard"}>DASHBOARD</Link>
-        <Link legacyBehavior href={"/Review"}>COURSE REVIEW</Link>
+        <Link legacyBehavior href={"/Review"}>ITEM REVIEW</Link>
       </div>
     </div>
   );

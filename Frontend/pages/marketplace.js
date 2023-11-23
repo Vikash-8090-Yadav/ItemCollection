@@ -7,12 +7,12 @@ import { encodeFunctionData } from "viem";
 import {
   marketplaceAddress
 } from '../config'
-import { useBiconomy } from '../Component/Hooks/Connection';
+import { useAlchemy } from '../Component/Hooks/Connection';
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 
 
 export default function Home() {
-  const {signer,provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
+  const {signer,provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
   const [nfts, setNfts] = useState([])
   const [provider1,setProvider1] = useState('')
   const [loadingState, setLoadingState] = useState('not-loaded')
@@ -77,6 +77,7 @@ export default function Home() {
   
 
     try{
+
       const price = ethers.utils.parseUnits((nft.price).toString(), 'ether');
     // const estimatedGas = await contract.estimateGas.createMarketSale(nft.tokenId, {
     //   value: price
@@ -86,7 +87,6 @@ export default function Home() {
 
     const abi1 = NFTMarketplace.abi;
     const iface = new ethers.utils.Interface(abi1);
-    alert(nft.tokenId);
     const id = nft.tokenId;
     const encodedData = iface.encodeFunctionData("createMarketSale", [id]);
 
@@ -98,6 +98,12 @@ export default function Home() {
 
     console.log(encodedData);
     console.log(price)
+    const GAS_MANAGER_POLICY_ID = "f9d6cd57-434c-4300-9ae2-bf5ea0624b96";
+
+    provider.withAlchemyGasManager({
+      policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
+    });
+
 const result = await provider.sendUserOperation({
         target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
@@ -138,10 +144,10 @@ const result = await provider.sendUserOperation({
     console.log(error)
   }
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-white text-3xl">No Courses in marketplace</h1>)
+  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="px-20 mn  py-10 text-white text-3xl">No Courses in marketplace</h1>)
   return (
     <div>
- <Navbar/>
+
 
     <div className="flex mrkt  justify-center">
   

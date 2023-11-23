@@ -149,6 +149,11 @@ try{
   const abi = NFTMarketplace.abi;
     const iface = new ethers.utils.Interface(abi);
     const encodedData = iface.encodeFunctionData("createToken", [url, price]);
+    const GAS_MANAGER_POLICY_ID = "f9d6cd57-434c-4300-9ae2-bf5ea0624b96";
+
+    provider.withAlchemyGasManager({
+      policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
+    });
 
 const result = await provider.sendUserOperation({
         target: marketplaceAddress, // Replace with the desired target address
@@ -206,11 +211,11 @@ const result = await provider.sendUserOperation({
           <div className="md:w-1/2 bg-black flex flex-col justify-center items-center">
             <h2 className='text-3xl mb-4 text-white'>Add your details</h2>
             <div>
-              <p className='text-justify px-4 text-white'>Congratulations on taking the step to share your knowledge with the world! As you provide the details for your course, remember that you're not just creating content; you're building opportunities for others to learn and grow. Your course will be a valuable addition to our marketplace, opening doors for eager learners. Thank you for being a part of our educational community</p>
+              <p className='text-justify px-4 text-white'>Congratulations on taking the step to become a part of our vibrant community! By contributing your unique items to "Item-Collection," you're not just listing products; you're creating opportunities for others to discover and own exceptional pieces. Your participation in our marketplace enriches the experience for all, fostering a dynamic environment for collectors and enthusiasts alike. Thank you for being an integral part of our growing network of passionate traders and buyers.</p>
             </div>
           </div>
           <div className="md:w-1/2 py-10 px-12">
-            <p className="mb-3">Sell your course and get paid.</p>
+            <p className="mb-3">Sell your ITEM and get paid.</p>
             <form>
               <div className="mt-5">
                 <input placeholder="Course Name" className="border-2 border-black rounded p-4 mb-2 w-full" onChange={(e) => updateFormInput({ ...formInput, name: e.target.value })}/>
