@@ -60,7 +60,7 @@ Our vision is to create a global ecosystem that democratizes education, making i
     </tr>
     <tr>
       <td>Vercel</td>
-      <td></td>
+      <td>https://item-collection-l7dx4nsse-vikash-8090-yadav.vercel.app/</td>
     </tr>
     </table>
 </div>
