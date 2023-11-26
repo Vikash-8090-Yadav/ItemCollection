@@ -121,8 +121,8 @@ Open your web browser and visit http://localhost:3000 to interact with the store
 - Additionally, we faced significant difficulties in enabling users to resell courses. We wanted to allow users to buy and sell courses at different prices, and we had to ensure that the marketplace displayed the new price, but only to the user. Making it dynamic and connecting it to the marketplace was a challenge.
 
 **Account Abstraction:**
-- I  am a beginner in Account Abstraction and It's very difficult to manage all the transactions with the help of  userops and payemaster.
-- Getting lots of errors in the Session module key.
+- I  am a beginner in Account Abstraction and It's very difficult to manage all the transactions with the help of  userops and Gas sponsor/Batch.
+- Getting lots of errors in the Social auth.
 
 
 **Frontend:**
