@@ -4,8 +4,8 @@ import {
   LightSmartContractAccount,
   getDefaultLightAccountFactoryAddress,
 } from "@alchemy/aa-accounts";
-import { ParticleNetwork } from "@particle-network/auth";
-import { ParticleProvider } from "@particle-network/provider";
+// import { ParticleNetwork } from "@particle-network/auth";
+// import { ParticleProvider } from "@particle-network/provider";
 import { LocalAccountSigner } from "@alchemy/aa-core";
 import { polygonMumbai } from "viem/chains";
 import { WalletClientSigner,  SmartAccountSigner } from "@alchemy/aa-core";
@@ -15,26 +15,26 @@ const chain = polygonMumbai;
 const PRIVATE_KEY = "0x4b37e644ab78c477cf92ed880dd52d5b0d50bfe36056696d1e05ba480d5abaa3"; // Replace with the private key of your EOA that will be the owner of Light Account
 
 
-const particle = new ParticleNetwork({
-  projectId: "add7fc6d-c5e0-4018-a6e1-4d7c10c79f2d" ,
-  clientKey: "cergjuCrbXhDPdwbzQMaGqubnTZ4m8zDuwyXlrJF" ,
-  appId: "sT0XVkK7qOG68D2cTEZAOsNXuzDU2q39z2mp518a" ,
-  chainName: "polygon",
-  chainId: 80001,
-});
+// const particle = new ParticleNetwork({
+//   projectId: "add7fc6d-c5e0-4018-a6e1-4d7c10c79f2d" ,
+//   clientKey: "cergjuCrbXhDPdwbzQMaGqubnTZ4m8zDuwyXlrJF" ,
+//   appId: "sT0XVkK7qOG68D2cTEZAOsNXuzDU2q39z2mp518a" ,
+//   chainName: "polygon",
+//   chainId: 80001,
+// });
 
-const particleProvider = new ParticleProvider(particle.auth);
+// const particleProvider = new ParticleProvider(particle.auth);
 
-// Assumes user has logged in with something like particle.auth.login(), Particle Connect, or through other misc. connection
+// // Assumes user has logged in with something like particle.auth.login(), Particle Connect, or through other misc. connection
 
-const particleWalletClient = createWalletClient({
-  transport: custom(particleProvider),
-});
+// const particleWalletClient = createWalletClient({
+//   transport: custom(particleProvider),
+// });
 
-const particleSigner = new WalletClientSigner(
-  particleWalletClient,
-  "particle"
-);
+// const particleSigner = new WalletClientSigner(
+//   particleWalletClient,
+//   "particle"
+// );
 
 
 const eoaSigner =
