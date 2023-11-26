@@ -143,7 +143,7 @@ The next thing was to deal with the performance of the website. Since, if the we
 ![Screenshot from 2023-11-27 01-35-00](https://github.com/Vikash-8090-Yadav/BetaSTore/assets/85225156/dd0580e2-dbd2-400c-a876-046ae88920e6)
 
 
-## Biconomy
+## Alchemy
 
 - EOA SIGN IN
   ![Screenshot from 2023-11-27 01-57-43](https://github.com/Vikash-8090-Yadav/ItemCollection/assets/85225156/73bdcbf9-854a-4437-8736-d249c0de87c8)
