@@ -115,7 +115,7 @@ const walletClient = createWalletClient({
         smartAccount: smartAccount,
         smartAccountAddress: smartAccountAddress,
         provider: provider,
-        signer:signer,
+        signer:eoaSigner,
         connect
       }}
     >

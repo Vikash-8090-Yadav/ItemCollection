@@ -12,6 +12,7 @@ import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketp
 
 export default function MyAssets() {
 
+  
   const {signer,provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
   const [nfts, setNfts] = useState([]);
   const [loadingState, setLoadingState] = useState('not-loaded');

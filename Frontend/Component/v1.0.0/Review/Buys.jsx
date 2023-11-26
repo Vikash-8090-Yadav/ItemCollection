@@ -61,6 +61,8 @@ const Buy = ({ state }) => {
     const abi = NFTMarketplace.abi;
     const iface = new ethers.utils.Interface(abi);
     const encodedData = iface.encodeFunctionData("buyChai", [name, message]);
+    const paymentData = iface.encodeFunctionData("getBalance", []);
+
 
     // await transaction.wait();
 
@@ -68,15 +70,17 @@ const Buy = ({ state }) => {
     try{
       const GAS_MANAGER_POLICY_ID = "f9d6cd57-434c-4300-9ae2-bf5ea0624b96";
 
-      provider.withAlchemyGasManager({
-        policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
-      });
+      // provider.withAlchemyGasManager({
+      //   policyId: GAS_MANAGER_POLICY_ID, // replace with your policy id, get yours at https://dashboard.alchemy.com/
+      // });
 
       
       const result = await provider.sendUserOperation(
         { target: marketplaceAddress, // Replace with the desired target address
         data: encodedData, // Replace with the desired call data
-        value: ethers.utils.parseEther('0.001')},
+        value: ethers.utils.parseEther('0.001'),
+      },
+      
         
       );
 

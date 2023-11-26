@@ -6,8 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TailSpin } from "react-loader-spinner";
 import Navbar from "../Component/Course/Nav";
-import { useBiconomy } from '../Component/Hooks/Connection';
-
+import { useAlchemy } from '../Component/Hooks/Connection';
 
 import { create as IPFSHTTPClient } from 'ipfs-http-client';
 
@@ -32,7 +31,7 @@ import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketp
 
 const CreateItem=() => {
 
-  const {provider,smartAccount, smartAccountAddress,connect} = useBiconomy();
+  const {provider,smartAccount, smartAccountAddress,connect} = useAlchemy();
 
 
 
